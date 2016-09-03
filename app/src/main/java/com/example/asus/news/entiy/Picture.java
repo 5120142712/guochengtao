@@ -1,7 +1,9 @@
 package com.example.asus.news.entiy;
 
 /**
- * Created by ASUS on 2016/9/1.
+ *
+ * 文章中的图片
+ * Created by JiangAo on 2016/9/1.
  */
 public class Picture {
     String file;

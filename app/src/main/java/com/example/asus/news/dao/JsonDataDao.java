@@ -28,6 +28,10 @@ import org.json.JSONObject;
 public class JsonDataDao {
     private ArrayList<Article> artList = null;
     private URL url;
+    /**
+     * 所有获得Json文件的接口
+     */
+
     private final String China
             = "http://iosnews.chinadaily.com.cn/newsdata/news/columns/32_column_v4.json?time=";
     private final String World
@@ -47,6 +51,14 @@ public class JsonDataDao {
     private final String Video
             = "http://iosnews.chinadaily.com.cn/newsdata/news/columns/39_column_v4.json?time=";
 
+    /**
+     * 根据传入的字符，异步返回Json数据
+     * 在这个接口中的代码是在另一个线程中运行的，
+     * 需要注意的是这个返回的结果的运行跟UI线程是不同步的
+     *
+     * @param data
+     * @return
+     */
     public ArrayList<Article> getArticleListAsync(String data) {
         switch (data) {
             case "China":
@@ -95,7 +107,9 @@ public class JsonDataDao {
         thread.start();
         return artList;
     }
-
+    /**
+     *利用网络获取Json文件
+     */
     public ArrayList<Article> getArtList() {
         try {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -112,7 +126,9 @@ public class JsonDataDao {
             while ((line = in.readLine()) != null) {
                 jsonStringBuffer.append(line);
             }
-
+            /*
+            * 将JSon数据对应到实体
+            * */
             String jsonStr = jsonStringBuffer.toString();
             Log.v("jsonStr", jsonStr);
             JSONObject jsonObject = new JSONObject(jsonStr);
@@ -176,6 +192,10 @@ public class JsonDataDao {
     public JsonDataDao() {
         artList = new ArrayList<Article>();
     }
+    /**
+     * 异步获取下一页数据，数据存入了JsonData本身中的List中，即这个接口和getArticleListAsync
+     * 接口返回的数据是同一个List；
+     */
 
     public ArrayList<Article> getArticleListBypageandColumnIdAsync(int page, int columnId) {
 

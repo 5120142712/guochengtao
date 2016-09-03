@@ -1,7 +1,8 @@
 package com.example.asus.news.entiy;
 
 /**
- * Created by ASUS on 2016/9/1.
+ * 文章中的视频
+ * Created by JiangAo on 2016/9/1.
  */
 public class Medium {
     String file;

@@ -3,7 +3,8 @@ package com.example.asus.news.entiy;
 import java.util.ArrayList;
 
 /**
- * Created by ASUS on 2016/9/1.
+ * 新闻实体
+ * Created by JiangAo on 2016/9/1.
  */
 public class Article {
     String title;
