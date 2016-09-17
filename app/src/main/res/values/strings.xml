@@ -5,4 +5,14 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="China">China</string>
+    <string name="Word">Word</string>
+    <string name="Business">Business</string>
+    <string name="Sports">China</string>
+    <string name="Lifestyle">Lifestyle</string>
+    <string name="opinion">opinion</string>
+    <string name="Tech">Tech</string>
+    <string name="Special">Special</string>
+    <string name="Photo">Photo</string>
+    <string name="Video">Video</string>
 </resources>
