@@ -15,16 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import com.example.asus.news.adapter.SummaryAdapter;
 import com.example.asus.news.dao.JsonDataDao;
 import com.example.asus.news.entiy.Article;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    List<Article> articleList;
+    ArrayList<Article> articleList;
+    ListView articListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +54,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        //以下是自己的代码
+        articListView = ( ListView)findViewById(R.id.summary_listView);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        articleList=(new JsonDataDao()).getArticleListAsync("China");
+        SummaryAdapter summaryAdapter=new SummaryAdapter(articleList,this);
+        if (articleList != null) articListView.setAdapter(summaryAdapter);
     }
 
     @Override
