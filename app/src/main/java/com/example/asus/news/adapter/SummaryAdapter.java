@@ -7,12 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.example.asus.news.R;
 import com.example.asus.news.entiy.Article;
 
 import java.util.ArrayList;
 
 /**
- * Created by JiangAo on 2016/9/17.
+ * Created by JiangAo on 2016/8/17.
  */
 public class SummaryAdapter extends BaseAdapter{
     private ArrayList<Article> dataList=null;
