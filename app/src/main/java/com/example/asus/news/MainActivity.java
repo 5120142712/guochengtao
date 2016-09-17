@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ArrayList<Article> articleList;
     ListView articListView;
+    SummaryAdapter summaryAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +58,23 @@ public class MainActivity extends AppCompatActivity
 
         //以下是自己的代码
         articListView = ( ListView)findViewById(R.id.summary_listView);
+
+        articleList=(new JsonDataDao()).getArticleListAsync("China");
+        summaryAdapter=new SummaryAdapter(articleList,this);
+        if (articleList != null) articListView.setAdapter(summaryAdapter);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        articleList=(new JsonDataDao()).getArticleListAsync("China");
-        SummaryAdapter summaryAdapter=new SummaryAdapter(articleList,this);
-        if (articleList != null) articListView.setAdapter(summaryAdapter);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
     }
 
     @Override
