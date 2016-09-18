@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".ShowArticle"
-            android:label="@string/title_activity_show_acticle"
+            android:label="@string/title_activity_show_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

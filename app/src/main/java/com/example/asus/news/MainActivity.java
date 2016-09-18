@@ -141,9 +141,7 @@ public class MainActivity extends AppCompatActivity
             showArticle("Opinion");
         } else if (id == R.id.nav_tech) {
             showArticle("Tech");
-        } else if (id == R.id.nav_special) {
-
-        } else if (id == R.id.nav_photo) {
+        }  else if (id == R.id.nav_photo) {
             showArticle("Photo");
         } else if (id == R.id.nav_video) {
             showArticle("Video");

@@ -31,10 +31,6 @@
             android:icon="@drawable/ic_menu_send"
             android:title="@string/Tech" />
         <item
-            android:id="@+id/nav_special"
-            android:icon="@drawable/ic_menu_send"
-            android:title="@string/Special" />
-        <item
             android:id="@+id/nav_photo"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/Photo" />

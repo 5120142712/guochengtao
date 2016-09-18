@@ -12,8 +12,7 @@
     <string name="Lifestyle">Lifestyle</string>
     <string name="opinion">opinion</string>
     <string name="Tech">Tech</string>
-    <string name="Special">Special</string>
     <string name="Photo">Photo</string>
     <string name="Video">Video</string>
-    <string name="title_activity_show_acticle">ShowActicle</string>
+    <string name="title_activity_show_details">Details</string>
 </resources>
