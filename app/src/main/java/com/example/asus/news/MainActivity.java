@@ -114,19 +114,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_china) {
-
+            showArticle("China");
         } else if (id == R.id.nav_word) {
-
+            showArticle("World");
         } else if (id == R.id.nav_business) {
-
+            showArticle("Business");
         } else if (id == R.id.nav_sports) {
-
+            showArticle("Sports");
         } else if (id == R.id.nav_lifestyle) {
-
+            showArticle("Lifestyle");
         } else if (id == R.id.nav_opinion) {
-
+            showArticle("Opinion");
         } else if (id == R.id.nav_tech) {
-
+            showArticle("Tech");
         } else if (id == R.id.nav_special) {
 
         } else if (id == R.id.nav_photo) {
@@ -138,6 +138,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showArticle(String navString) {
+
+        jsonDataDao = new JsonDataDao();
+        articleList = jsonDataDao.getNewArtList();
+        summaryAdapter = new SummaryAdapter(articleList, this);
+        jsonDataDao.setArtListHandler(artListHandler);
+        articListView.setAdapter(summaryAdapter);
+        articleList = jsonDataDao.getArticleListAsync(navString);
+        articListView.setOnScrollListener(this);
     }
 
 
