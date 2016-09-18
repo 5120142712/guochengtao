@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.example.asus.news.adapter.SummaryAdapter;
@@ -22,14 +22,26 @@ import com.example.asus.news.dao.JsonDataDao;
 import com.example.asus.news.entiy.Article;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AbsListView.OnScrollListener {
     ArrayList<Article> articleList;
     ListView articListView;
     SummaryAdapter summaryAdapter;
+    private JsonDataDao jsonDataDao;
+    private int pageCount = 1;
+    private int SUCCESS_ARTICl_LOAD = 1;
+    final Handler artListHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == SUCCESS_ARTICl_LOAD) {
+                summaryAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +69,17 @@ public class MainActivity extends AppCompatActivity
 
 
         //以下是自己的代码
-        articListView = ( ListView)findViewById(R.id.summary_listView);
-
-        articleList=(new JsonDataDao()).getArticleListAsync("China");
-        summaryAdapter=new SummaryAdapter(articleList,this);
-        if (articleList != null) articListView.setAdapter(summaryAdapter);
+        /**
+         * artListView的设置
+         */
+        articListView = (ListView) findViewById(R.id.summary_listView);
+        jsonDataDao = new JsonDataDao();
+        articleList = jsonDataDao.getNewArtList();
+        summaryAdapter = new SummaryAdapter(articleList, this);
+        jsonDataDao.setArtListHandler(artListHandler);
+        articListView.setAdapter(summaryAdapter);
+        articleList = jsonDataDao.getArticleListAsync("China");
+        articListView.setOnScrollListener(this);
     }
 
     @Override
@@ -116,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_china) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_word) {
 
         } else if (id == R.id.nav_business) {
@@ -127,12 +145,32 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_opinion) {
 
-        } else if (id == R.id.nav_tech){
+        } else if (id == R.id.nav_tech) {
+
+        } else if (id == R.id.nav_special) {
+
+        } else if (id == R.id.nav_photo) {
+
+        } else if (id == R.id.nav_video) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+        if (i + i1 == i2 && jsonDataDao.isLoadPage() == false) {
+            pageCount++;
+            jsonDataDao.getArticleListBypageandColumnIdAsync(pageCount, articleList.get(0).getColumnId());
+        }
     }
 }

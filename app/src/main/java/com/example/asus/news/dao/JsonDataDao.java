@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.asus.news.adapter.SummaryAdapter;
 import com.example.asus.news.entiy.Article;
 import com.example.asus.news.entiy.Medium;
 import com.example.asus.news.entiy.Picture;
@@ -28,6 +29,8 @@ import org.json.JSONObject;
 public class JsonDataDao {
     private ArrayList<Article> artList = null;
     private URL url;
+    private Handler artListHandler = null;
+    private boolean isLoadPage = true;
     /**
      * 所有获得Json文件的接口
      */
@@ -51,10 +54,39 @@ public class JsonDataDao {
     private final String Video
             = "http://iosnews.chinadaily.com.cn/newsdata/news/columns/39_column_v4.json?time=";
 
+    public JsonDataDao() {
+        artList = new ArrayList<Article>();
+    }
+
+    public void setArtList(ArrayList<Article> artList) {
+        this.artList = artList;
+    }
+
+    public ArrayList<Article> getNewArtList() {
+        return artList;
+    }
+
+    public Handler getArtListHandler() {
+        return artListHandler;
+    }
+
+    public void setArtListHandler(Handler artListHandler) {
+        this.artListHandler = artListHandler;
+    }
+
+    public boolean isLoadPage() {
+        return isLoadPage;
+    }
+
+    public void setLoadPage(boolean loadPage) {
+        isLoadPage = loadPage;
+    }
+
     /**
      * 根据传入的字符，异步返回Json数据
      * 在这个接口中的代码是在另一个线程中运行的，
      * 需要注意的是这个返回的结果的运行跟UI线程是不同步的
+     * 使用前使用setArtictHandler给articHandler赋值,来通知主线程更新UI
      *
      * @param data
      * @return
@@ -107,15 +139,18 @@ public class JsonDataDao {
         thread.start();
         return artList;
     }
+
     /**
-     *利用网络获取Json文件
+     * 利用网络获取Json文件
      */
     public ArrayList<Article> getArtList() {
+        isLoadPage = true;
         try {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Charset", "utf-8");
             urlConnection.connect();
             if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                isLoadPage = false;
                 return artList;
             }
 
@@ -178,20 +213,20 @@ public class JsonDataDao {
                     }
                 }
                 artList.add(article);
+                if (artListHandler != null) {
+                    artListHandler.sendEmptyMessage(1);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        isLoadPage = false;
         return artList;
     }
 
 
-    public JsonDataDao() {
-        artList = new ArrayList<Article>();
-    }
     /**
      * 异步获取下一页数据，数据存入了JsonData本身中的List中，即这个接口和getArticleListAsync
      * 接口返回的数据是同一个List；
