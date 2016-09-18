@@ -129,12 +129,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_tech){
 
-        } else if (id == R.id.nav_special){
-
-        }else if (id == R.id.nav_photo){
-
-        }else if (id == R.id.nav_video){
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
