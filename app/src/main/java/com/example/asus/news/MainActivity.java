@@ -1,10 +1,9 @@
 package com.example.asus.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.asus.news.adapter.SummaryAdapter;
@@ -71,6 +70,21 @@ public class MainActivity extends AppCompatActivity
         articListView.setAdapter(summaryAdapter);
         articleList = jsonDataDao.getArticleListAsync("China");
         articListView.setOnScrollListener(this);
+
+        articListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(MainActivity.this, ShowArticle.class);
+
+                intent.putExtra("title", articleList.get(i).getTitle());
+                intent.putExtra("author", articleList.get(i).getAuthor());
+                intent.putExtra("source", articleList.get(i).getSource());
+                intent.putStringArrayListExtra("picPaths", articleList.get(i).getPicPaths());
+                intent.putStringArrayListExtra("mediumPaths", articleList.get(i).getmediumPaths());
+                intent.putExtra("content", articleList.get(i).getContent());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -130,9 +144,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_special) {
 
         } else if (id == R.id.nav_photo) {
-
+            showArticle("Photo");
         } else if (id == R.id.nav_video) {
-
+            showArticle("Video");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -159,7 +173,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-        if (i + i1 == i2 && jsonDataDao.isLoadPage() == false) {
+        if (i + i1 == i2 && jsonDataDao.isLoadPage() == false && !articleList.isEmpty()) {
             pageCount++;
             jsonDataDao.getArticleListBypageandColumnIdAsync(pageCount, articleList.get(0).getColumnId());
         }

@@ -165,15 +165,17 @@ public class JsonDataDao {
             * 将JSon数据对应到实体
             * */
             String jsonStr = jsonStringBuffer.toString();
-            Log.v("jsonStr", jsonStr);
+            //Log.v("jsonStr", jsonStr);
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject arts = jsonObject.getJSONObject("articles");
             Iterator<String> it = arts.keys();
             while (it.hasNext()) {
                 String key = it.next();
                 JSONObject artJson = arts.getJSONObject(key);
-                Log.v("jsonIterator", key);
+                //Log.v("jsonIterator", key);
+
                 Article article = new Article();
+                article.setArticleId(artJson.getInt("articleId"));
                 article.setAuthor(artJson.getString("author"));
                 article.setContent(artJson.getString("content"));
                 article.setDescription(artJson.getString("description"));
@@ -198,13 +200,13 @@ public class JsonDataDao {
                         article.setPictures(pic);
                     }
                 }
-
+                JSONObject media = null;
                 if (!artJson.isNull("medias")) {
-                    JSONObject media = artJson.getJSONObject("medias");
+                    media = artJson.getJSONObject("medias");
                     Iterator itMed = media.keys();
                     while (itMed.hasNext()) {
                         String keyMed = (String) itMed.next();
-                        JSONObject mediumJSONObject = pictures.getJSONObject(keyMed);
+                        JSONObject mediumJSONObject = media.getJSONObject(keyMed);
                         Medium medium = new Medium();
                         medium.setDescription(mediumJSONObject.getString("description"));
                         medium.setFile(mediumJSONObject.getString("file"));

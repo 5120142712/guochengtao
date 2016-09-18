@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Created by JiangAo on 2016/9/1.
  */
 public class Article {
+    int articleId;
     String title;
     String description;
     String author;
@@ -16,6 +17,14 @@ public class Article {
     Integer columnId;
     ArrayList<Picture> pictures;
     ArrayList<Medium> media;
+
+    public int getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
+    }
 
     public Integer getColumnId() {
         return columnId;
@@ -92,5 +101,31 @@ public class Article {
 
     public void setMedia(Medium medium) {
         this.media.add(medium);
+    }
+
+    public ArrayList<String> getPicPaths() {
+        ArrayList<String> picPaths = new ArrayList<String>();
+        for (Picture pic : pictures) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("http://iosnews.chinadaily.com.cn/newsdata/news/")
+                    .append(getPath() + "/")
+                    .append(getArticleId() + "/")
+                    .append(pic.getFileHD());
+            picPaths.add(sb.toString());
+        }
+        return picPaths;
+    }
+
+    public ArrayList<String> getmediumPaths() {
+        ArrayList<String> midiumPaths = new ArrayList<String>();
+        for (Medium medium : media) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("http://iosnews.chinadaily.com.cn/newsdata/news/")
+                    .append(getPath() + "/")
+                    .append(getArticleId() + "/")
+                    .append(medium.getFileHD());
+            midiumPaths.add(sb.toString());
+        }
+        return midiumPaths;
     }
 }
