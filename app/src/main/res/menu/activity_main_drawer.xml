@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"/>
         <item
             android:id="@+id/nav_china"
             android:icon="@drawable/ic_menu_send"
@@ -30,5 +30,16 @@
             android:id="@+id/nav_tech"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/Tech" />
-    </group>
+        <item
+            android:id="@+id/nav_special"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/Special" />
+        <item
+            android:id="@+id/nav_photo"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/Photo" />
+        <item
+            android:id="@+id/nav_video"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/Video" />
 </menu>
