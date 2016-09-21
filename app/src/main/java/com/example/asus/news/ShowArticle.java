@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 
+import java.util.ArrayList;
+
 public class ShowArticle extends AppCompatActivity {
 
     @Override
@@ -21,17 +23,34 @@ public class ShowArticle extends AppCompatActivity {
         StringBuffer sb = new StringBuffer();
         articleWebView.setBackgroundColor(0);
         //title  author author
-        for (String picPath : intent.getStringArrayListExtra("picPaths")) {
-            sb.append("<img src ='" + picPath + "'  width=\"100%\" height=\150px\"/><p>\n" +
-                    "\n" +
-                    "</p>");
+        if(!intent.getStringExtra("title").matches("null")) {
+            sb.append("<h2>" + intent.getStringExtra("title") + "</h2>");
+        }
+        if(!intent.getStringExtra("author").matches("null")) {
+            sb.append("<h4>Author:" + intent.getStringExtra("author") + "</h4>");
+        }
+        if(!intent.getStringExtra("source").matches("null")) {
+            sb.append("<h4>Source:" + intent.getStringExtra("source") + "</h4>");
+        }
+        sb.append("\n<hr/>\n");
+        if(intent.getStringArrayListExtra("mediumPaths").isEmpty()) {
+            for (String picPath : intent.getStringArrayListExtra("picPaths")) {
+                sb.append("<img src =\"" + picPath + "\"  width=\"100%\"/><p>\n\n</p>");
+            }
         }
         // controls="controls"
-        for (String mediumPath : intent.getStringArrayListExtra("mediumPaths")) {
-            sb.append("<video src=\"" + mediumPath + "\" preload='preload'  width=\"100%\" height=150px\" >" +
-                    "</video><p>\r\n\n</p>");
+        else {
+            for (String mediumPath : intent.getStringArrayListExtra("mediumPaths")) {
+                ArrayList<String> picPaths = intent.getStringArrayListExtra("picPaths");
+                String picPath = picPaths.get(0);
+                sb.append("<video src=\"" + mediumPath + "\" poster=\"" + picPath +
+                        "\" preload=\"preload\" controls=\"controls\" width=\"100%\" >" +
+                        "</video><p>\n\n</p>");
+            }
         }
-        sb.append(intent.getStringExtra("content"));
+        if(!intent.getStringExtra("content").matches("null")) {
+            sb.append(intent.getStringExtra("content"));
+        }
         articleWebView.loadData(sb.toString(), "text/html", "UTF-8");
 
     }

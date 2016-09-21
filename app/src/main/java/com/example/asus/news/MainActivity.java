@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, ShowArticle.class);
-
+//
                 intent.putExtra("title", articleList.get(i).getTitle());
                 intent.putExtra("author", articleList.get(i).getAuthor());
                 intent.putExtra("source", articleList.get(i).getSource());
