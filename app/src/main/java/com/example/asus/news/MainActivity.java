@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+
+        super.onPause();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
@@ -175,5 +181,10 @@ public class MainActivity extends AppCompatActivity
             pageCount++;
             jsonDataDao.getArticleListBypageandColumnIdAsync(pageCount, articleList.get(0).getColumnId());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

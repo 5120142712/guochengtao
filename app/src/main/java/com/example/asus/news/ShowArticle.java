@@ -44,7 +44,7 @@ public class ShowArticle extends AppCompatActivity {
                 ArrayList<String> picPaths = intent.getStringArrayListExtra("picPaths");
                 String picPath = picPaths.get(0);
                 sb.append("<video src=\"" + mediumPath + "\" poster=\"" + picPath +
-                        "\" preload=\"preload\" controls=\"controls\" width=\"100%\" >" +
+                        "\" autoplay=\"autoplay\" controls=\"controls\" width=\"100%\" >" +
                         "</video><p>\n\n</p>");
             }
         }
@@ -55,4 +55,17 @@ public class ShowArticle extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        WebView articleWebView = (WebView) findViewById(R.id.article_webView);
+        articleWebView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        WebView articleWebView = (WebView) findViewById(R.id.article_webView);
+        articleWebView.onPause();
+        super.onDestroy();
+    }
 }
