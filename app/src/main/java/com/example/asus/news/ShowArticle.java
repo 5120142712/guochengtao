@@ -59,6 +59,7 @@ public class ShowArticle extends AppCompatActivity {
     protected void onPause() {
         WebView articleWebView = (WebView) findViewById(R.id.article_webView);
         articleWebView.onPause();
+
         super.onPause();
     }
 
